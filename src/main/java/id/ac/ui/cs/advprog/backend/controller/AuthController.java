@@ -4,9 +4,11 @@ import id.ac.ui.cs.advprog.backend.model.User;
 import id.ac.ui.cs.advprog.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     private final UserService userService;
