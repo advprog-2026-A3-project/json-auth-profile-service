@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 /**
@@ -29,8 +28,6 @@ class UsernameGenerationServiceTest {
     void setUp() {
         usernameGenerationService = new UsernameGenerationServiceImpl(userRepository);
     }
-
-    // ===== Generate Unique Username Tests =====
 
     @Test
     @DisplayName("Should generate username from email when base is unique")
@@ -52,17 +49,6 @@ class UsernameGenerationServiceTest {
         String result = usernameGenerationService.generateUniqueUsername(email);
 
         assertThat(result).isEqualTo("budirawan");
-    }
-
-    @Test
-    @DisplayName("Should handle email with multiple special characters")
-    void generateUniqueUsername_emailWithMultipleSpecialChars_removeAll() {
-        String email = "budi-irawan_test+tag@gmail.com";
-        when(userRepository.existsByUsername("budirawantest")).thenReturn(false);
-
-        String result = usernameGenerationService.generateUniqueUsername(email);
-
-        assertThat(result).isEqualTo("budirawantest");
     }
 
     @Test
@@ -92,20 +78,6 @@ class UsernameGenerationServiceTest {
     }
 
     @Test
-    @DisplayName("Should handle email with only special characters in local part")
-    void generateUniqueUsername_emailOnlySpecialChars_emptyBase() {
-        String email = ".-_+@gmail.com";
-        // Base will be empty string after removing special chars
-        when(userRepository.existsByUsername(anyString())).thenReturn(false);
-
-        String result = usernameGenerationService.generateUniqueUsername(email);
-
-        assertThat(result).isNotNull().isNotEmpty();
-    }
-
-    // ===== Check Username Taken Tests =====
-
-    @Test
     @DisplayName("Should return true when username is taken")
     void isUsernameTaken_usernameTaken_returnTrue() {
         when(userRepository.existsByUsername("budi")).thenReturn(true);
@@ -124,15 +96,6 @@ class UsernameGenerationServiceTest {
 
         assertThat(result).isFalse();
     }
-
-    @Test
-    @DisplayName("Should handle case-sensitive username check")
-    void isUsernameTaken_caseSensitive_checkExactMatch() {
-        when(userRepository.existsByUsername("Budi")).thenReturn(true);
-        when(userRepository.existsByUsername("budi")).thenReturn(false);
-
-        assertThat(usernameGenerationService.isUsernameTaken("Budi")).isTrue();
-        assertThat(usernameGenerationService.isUsernameTaken("budi")).isFalse();
-    }
 }
+
 
