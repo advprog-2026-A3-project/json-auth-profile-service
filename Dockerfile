@@ -8,7 +8,7 @@ RUN gradle build -x test --no-daemon
 # Stage 2: Runtime (Hanya menyalin hasil build agar image kecil)
 FROM eclipse-temurin:21-jre-jammy
 EXPOSE 8080
-COPY --from=build /home/gradle/src/build/libs/app.jar /app.jar
+COPY --from=build /home/gradle/src/build/libs/*.jar /app.jar
 
 # Menjalankan aplikasi
 ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "/app.jar"]
