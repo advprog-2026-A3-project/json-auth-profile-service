@@ -2,6 +2,8 @@ package id.ac.ui.cs.advprog.authnprofile.repository;
 
 import id.ac.ui.cs.advprog.authnprofile.model.KycStatus;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(String email);
     boolean existsByUsername(String username);
     List<User> findByKycStatus(KycStatus kycStatus);
+    Page<User> findAllByActive(boolean active, Pageable pageable);
 }

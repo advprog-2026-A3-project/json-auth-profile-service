@@ -1,8 +1,10 @@
 package id.ac.ui.cs.advprog.authnprofile.service;
 
 import id.ac.ui.cs.advprog.authnprofile.dto.UserProfileResponse;
+import id.ac.ui.cs.advprog.authnprofile.model.Profile;
 import id.ac.ui.cs.advprog.authnprofile.model.Role;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
+import id.ac.ui.cs.advprog.authnprofile.repository.ProfileRepository;
 import id.ac.ui.cs.advprog.authnprofile.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
     private final UsernameGenerationService usernameGenerationService;
     private final PasswordValidationService passwordValidationService;
     private final PasswordEncoder passwordEncoder;
@@ -42,6 +45,18 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                 .build();
 
         User savedUser = userRepository.save(newUser);
+
+        // Create corresponding profile record
+        Profile profile = Profile.builder()
+                .user(savedUser)
+                .username(generatedUsername)
+                .successfulTransactions(0)
+                .failedTransactions(0)
+                .rating(0.0)
+                .build();
+
+        profileRepository.save(profile);
+
         return UserProfileResponse.from(savedUser);
     }
 
