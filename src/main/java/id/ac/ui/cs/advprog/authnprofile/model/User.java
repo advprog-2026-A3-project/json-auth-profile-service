@@ -32,7 +32,8 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    private String fullName;
+    private String displayName;
+    private String phoneNumber;
     private String bio;
     private String socialMediaLink;
 

@@ -3,6 +3,7 @@ package id.ac.ui.cs.advprog.authnprofile.service;
 import id.ac.ui.cs.advprog.authnprofile.dto.UserProfileResponse;
 import id.ac.ui.cs.advprog.authnprofile.model.Role;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
+import id.ac.ui.cs.advprog.authnprofile.repository.ProfileRepository;
 import id.ac.ui.cs.advprog.authnprofile.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,6 +32,9 @@ class UserRegistrationServiceTest {
     private UserRepository userRepository;
 
     @Mock
+    private ProfileRepository profileRepository;
+
+    @Mock
     private UsernameGenerationService usernameGenerationService;
 
     @Mock
@@ -45,6 +49,7 @@ class UserRegistrationServiceTest {
     void setUp() {
         userRegistrationService = new UserRegistrationServiceImpl(
                 userRepository,
+                profileRepository,
                 usernameGenerationService,
                 passwordValidationService,
                 passwordEncoder

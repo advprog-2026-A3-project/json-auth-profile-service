@@ -4,8 +4,10 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class KycRequest {
+public class KycSubmissionRequest {
     @NotBlank
-    private String fullName;
+    private String displayName;
+
+    private String phoneNumber;
     private String socialMediaLink;
 }
