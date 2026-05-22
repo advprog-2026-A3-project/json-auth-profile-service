@@ -37,9 +37,12 @@ public class JwtService {
     }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        String email = (userDetails instanceof id.ac.ui.cs.advprog.authnprofile.model.User)
+            ? ((id.ac.ui.cs.advprog.authnprofile.model.User) userDetails).getEmail()
+            : userDetails.getUsername();
         return Jwts.builder()
                 .claims(extraClaims)
-                .subject(userDetails.getUsername())
+                .subject(email)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey())
@@ -47,8 +50,11 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        final String email = extractUsername(token);
+        String userEmail = (userDetails instanceof id.ac.ui.cs.advprog.authnprofile.model.User)
+            ? ((id.ac.ui.cs.advprog.authnprofile.model.User) userDetails).getEmail()
+            : userDetails.getUsername();
+        return email.equals(userEmail) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {

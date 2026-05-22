@@ -4,6 +4,7 @@ import id.ac.ui.cs.advprog.authnprofile.dto.LoginResponse;
 import id.ac.ui.cs.advprog.authnprofile.model.Role;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
 import id.ac.ui.cs.advprog.authnprofile.repository.UserRepository;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +37,9 @@ class UserAuthenticationServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
 
+    @Mock
+    private MeterRegistry meterRegistry;
+
     private UserAuthenticationService userAuthenticationService;
 
     @BeforeEach
@@ -43,7 +47,8 @@ class UserAuthenticationServiceTest {
         userAuthenticationService = new UserAuthenticationServiceImpl(
                 userRepository,
                 jwtService,
-                authenticationManager
+                authenticationManager,
+                meterRegistry
         );
     }
 

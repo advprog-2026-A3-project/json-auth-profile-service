@@ -73,8 +73,10 @@ public class User implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
+    public String getEmail() { return email; }
+
     @Override
-    public String getUsername() { return email; } // Spring Security uses email as username
+    public String getUsername() { return username; }
 
     public String getDisplayUsername() { return username; }
 
