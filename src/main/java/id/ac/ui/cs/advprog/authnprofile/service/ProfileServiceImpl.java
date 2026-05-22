@@ -186,6 +186,14 @@ public class ProfileServiceImpl implements ProfileService {
         return UserProfileResponse.from(userRepository.save(user));
     }
 
+    @Override
+    @Transactional
+    public UserProfileResponse updateUserRole(Long userId, Role role) {
+        User user = findUserById(userId);
+        user.setRole(role);
+        return UserProfileResponse.from(userRepository.save(user));
+    }
+
     private User findUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + id));

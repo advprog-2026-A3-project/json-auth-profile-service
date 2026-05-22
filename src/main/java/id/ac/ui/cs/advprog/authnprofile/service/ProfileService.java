@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.authnprofile.service;
 
 import id.ac.ui.cs.advprog.authnprofile.dto.*;
+import id.ac.ui.cs.advprog.authnprofile.model.Role;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
 import org.springframework.data.domain.Pageable;
 
@@ -17,4 +18,5 @@ public interface ProfileService {
     List<UserProfileResponse> getAllUsers();
     PaginatedResponse<UserProfileResponse> getAllUsers(Pageable pageable, Boolean active);
     UserProfileResponse setUserActive(Long userId, boolean active);
+    UserProfileResponse updateUserRole(Long userId, Role role);
 }

@@ -1,6 +1,7 @@
 package id.ac.ui.cs.advprog.authnprofile.controller;
 
 import id.ac.ui.cs.advprog.authnprofile.dto.*;
+import id.ac.ui.cs.advprog.authnprofile.model.Role;
 import id.ac.ui.cs.advprog.authnprofile.model.User;
 import id.ac.ui.cs.advprog.authnprofile.service.ProfileService;
 import jakarta.validation.Valid;
@@ -96,5 +97,21 @@ public class ProfileController {
             @PathVariable Long userId,
             @RequestParam boolean active) {
         return ResponseEntity.ok(profileService.setUserActive(userId, active));
+    }
+
+    // Admin: update user role
+    @PatchMapping("/admin/users/{userId}/role")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<UserProfileResponse> updateUserRole(
+            @PathVariable Long userId,
+            @Valid @RequestBody RoleUpdateRequest request) {
+        Role role;
+        try {
+            role = Role.valueOf(request.getRole().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role: " + request.getRole()
+                    + ". Must be one of: TITIPERS, JASTIPER, ADMIN");
+        }
+        return ResponseEntity.ok(profileService.updateUserRole(userId, role));
     }
 }
