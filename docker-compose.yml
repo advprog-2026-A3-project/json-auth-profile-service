@@ -19,10 +19,12 @@ services:
     ports:
       - "8081:8081"
     environment:
+      - PORT=8081
       - DATABASE_URL=jdbc:postgresql://db:5432/auth_profile_db
       - DB_USERNAME=postgres
       - DB_PASSWORD=postgres
       - JWT_SECRET=ThisIsAVeryLongSecretKeyForJSONAppThatShouldBeAtLeast256BitsLong!
+      - MANAGEMENT_METRICS_TAGS_APPLICATION=json-auth-profile-service
     depends_on:
       - db
 
@@ -40,7 +42,7 @@ services:
     image: grafana/grafana:latest
     container_name: grafana
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     depends_on:
